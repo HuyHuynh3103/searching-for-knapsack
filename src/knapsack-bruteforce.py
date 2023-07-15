@@ -1,17 +1,8 @@
 import os
 import numpy as np
 import time
-
-def getInfo(fileName):
-   path = os.path.dirname(__file__)
-   pathFileName = (path + "/" + fileName)
-   with open(pathFileName, "r") as fin:
-      w = float(fin.readline())
-      m = int(fin.readline())
-      WList = list(map(float, fin.readline().rstrip("\n").split(", ")))
-      VList = list(map(float, fin.readline().rstrip("\n").split(", ")))
-      NList = list(map(float, fin.readline().rstrip("\n").split(", ")))
-   return w, m, WList, VList, NList
+import utils.read
+import utils.write
 
 def generateSelections(i, WList, selection, m, NList):
    if i == len(WList):
@@ -54,23 +45,12 @@ def bruteForce(w, m, WList, VList, NList):
    else:
       return (maxValue, bestSelection.tolist())
 
-def printResult(fileName, maxValue, listW):
-   path = os.path.dirname(__file__)
-   pathFileName = (path + "/" + fileName)
-   fout = open(pathFileName, "w")
-   if (maxValue > 0):
-      fout.write(str(maxValue) + "\n")
-      fout.write(str(listW))
-   else:
-      fout.write("No optimal solution")
 
 if __name__ == "__main__":
     print("==Brute Force Solution==")
-    fileNameIn = "../INPUT_10.txt"
-    fileNameOut = "../Output_10.txt"
-    w, m, WList, VList, NList = getInfo(fileNameIn)
+    w, m, WList, VList, NList = utils.read.readDataset()
     start = time.time() 
     maxValue, listW = bruteForce(w, m, WList, VList, NList)
-    printResult(fileNameOut, maxValue, listW)
+    utils.write.writeOutput(maxValue, listW)
     end = time.time()                                                                                                                                                              
     print("Time: ", end - start, '\n')

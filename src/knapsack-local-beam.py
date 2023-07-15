@@ -1,28 +1,6 @@
-import os
 import time
-
-def getInfo(fileName):
-    path = os.path.dirname(__file__)
-    pathFileName = (path + "/" + fileName)
-    with open(pathFileName, "r") as fin:
-        capacity = float(fin.readline())
-        num = int(fin.readline())
-        WList = list(map(float, fin.readline().rstrip("\n").split(", ")))
-        VList = list(map(float, fin.readline().rstrip("\n").split(", ")))
-        Clabel = list(map(int, fin.readline().rstrip("\n").split(", ")))
-    return capacity, num, WList, VList, Clabel
-
-def printResult(fileName, maxValue, listW):
-    path = os.path.dirname(__file__)
-    pathFileName = (path + "/" + fileName)
-    with open(pathFileName, "w") as fout:
-        if maxValue > 0:
-            fout.write(f"{maxValue}\n")
-            fout.write(f"{listW}")
-        else:
-            fout.write("No optimal solution")
-    fout.close()
-
+import utils.read
+import utils.write
 
 def LocalBeam(capacity, num, Wlist, VList, Clabel, Bwidth):
     highest_val = float
@@ -74,15 +52,13 @@ def LocalBeam(capacity, num, Wlist, VList, Clabel, Bwidth):
 
 if __name__ == '__main__':
     print("==Local Beam Solution==")
-    fileNameIn = "../INPUT_10.txt"
-    fileNameOut = "../OUTPUT_10.txt"
-    w, m, WList, VList, Clabel = getInfo(fileNameIn)
+    w, m, WList, VList, Clabel = utils.read.readDataset()
     start = time.time()
     for x in range(1,9):
         lb = LocalBeam(w,m,WList,VList,Clabel,x)
         for y in range(2,len(WList)):
             best_val = LocalBeam(w,m,WList,VList,Clabel,x)
     end = time.time()
-    printResult(fileNameOut, best_val[0], best_val[1])
+    utils.write.writeOutput(best_val[0], best_val[1])
     print("Time: ", end - start, '\n')
     

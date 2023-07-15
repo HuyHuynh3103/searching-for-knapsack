@@ -1,31 +1,8 @@
-# https://arpitbhayani.me/blogs/genetic-knapsack
-
-import os
 import random
 import time
+import utils.read
+import utils.write
 
-def getInfo(fileName):
-    path = os.path.dirname(__file__)
-    pathFileName = (path + "/" + fileName)
-    with open(pathFileName, "r") as fin:
-        w = float(fin.readline())
-        m = int(fin.readline())
-        WList = list(map(float, fin.readline().rstrip("\n").split(", ")))
-        VList = list(map(float, fin.readline().rstrip("\n").split(", ")))
-        NList = list(map(float, fin.readline().rstrip("\n").split(", ")))
-    return w, m, WList, VList, NList
-
-def printResult(fileName, maxValue, listW):
-    path = os.path.dirname(__file__)
-    pathFileName = (path + "/" + fileName)
-    with open(pathFileName, "w") as fout:
-        if maxValue > 0:
-            fout.write(f"{maxValue}\n")
-            fout.write(f"{listW}")
-        else:
-            fout.write("No optimal solution")
-    fout.close()
-    
 class Knapsack:
     maxWeight = 0
     classNum = 0
@@ -175,10 +152,7 @@ class Genetic:
 
 if __name__ == "__main__":
     print("==Genetic Solution==")
-    fileNameIn = "../INPUT_10.txt"
-    fileNameOut = "../OUTPUT_10.txt"
-    # print("Input "+ str(i))
-    w, m, WList, VList, NList = getInfo(fileNameIn)
+    w, m, WList, VList, NList = utils.read.readDataset()
     Knapsack.maxWeight = float(w)
     Knapsack.classNum = float(m)
     itemList = []
@@ -189,8 +163,6 @@ if __name__ == "__main__":
     start = time.time()
     solution = Genetic.solveProblem()
     end = time.time()    
-    printResult(fileNameOut, solution[2], solution[1])
-    # print("End Input "+ str(i))
-    # print("Print Output " + str(i)) 
+    utils.write.writeOutput(solution[2], solution[1])
     print("Time: ", end - start, '\n')
 

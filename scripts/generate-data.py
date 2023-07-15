@@ -1,5 +1,6 @@
 import random
 
+from config import Config,DATASET_SIZE,NUMBER_OF_CLASS,INPUT_FILE
 
 class Node:
     def __init__(self, weight, value, class_type, ans=0):
@@ -51,8 +52,9 @@ def print_dataset(capacity, num_of_class, dataset, filename="dataset.txt"):
 
 
 def main():
-    capacity, num_of_class, dataset = generate_dataset(150, 7)
-    print_dataset(capacity, num_of_class, dataset, "INPUT_10.txt")
+    config = Config()
+    capacity, num_of_class, dataset = generate_dataset(config.get_setting(DATASET_SIZE), config.get_setting(NUMBER_OF_CLASS))
+    print_dataset(capacity, num_of_class, dataset, config.get_setting(INPUT_FILE))
     # print(verify_answer("test/1500.txt", "test/output.txt"))
 
 
