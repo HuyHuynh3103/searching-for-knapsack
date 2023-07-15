@@ -65,16 +65,12 @@ def printResult(fileName, maxValue, listW):
       fout.write("No optimal solution")
 
 if __name__ == "__main__":
-   for i in range(11, 16):
-      print("Brute force solution: ")
-      fileNameIn = "input_"+ str(i) +".txt"
-      fileNameOut = "output_"+ str(i) +".txt"
-      print("Input "+ str(i))
-      w, m, WList, VList, NList = getInfo(fileNameIn)
-      start = time.time() 
-      maxValue, listW = bruteForce(w, m, WList, VList, NList)
-      printResult(fileNameOut, maxValue, listW)
-      end = time.time()                                                                                                                                                              
-      print("End Input " + str(i))
-      print("Print Output " + str(i))
-      print("Time: ", end - start, '\n')
+    print("Brute force solution: ")
+    fileNameIn = "../INPUT_10.txt"
+    fileNameOut = "../Output_10.txt"
+    w, m, WList, VList, NList = getInfo(fileNameIn)
+    start = time.time() 
+    maxValue, listW = bruteForce(w, m, WList, VList, NList)
+    printResult(fileNameOut, maxValue, listW)
+    end = time.time()                                                                                                                                                              
+    print("Time: ", end - start, '\n')

@@ -51,8 +51,8 @@ def print_dataset(capacity, num_of_class, dataset, filename="dataset.txt"):
 
 
 def main():
-    capacity, num_of_class, dataset = generate_dataset(150, 7)
-    print_dataset(capacity, num_of_class, dataset, "input_" + str(capacity) + ".txt")
+    capacity, num_of_class, dataset = generate_dataset(10, 7)
+    print_dataset(capacity, num_of_class, dataset, "INPUT_10.txt")
     # print(verify_answer("test/1500.txt", "test/output.txt"))
 
 

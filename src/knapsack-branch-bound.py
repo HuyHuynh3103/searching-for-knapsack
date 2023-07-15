@@ -137,7 +137,7 @@ class Branch_Bound:
 
 
 if __name__ == '__main__':
-    algo = Branch_Bound(f'input/INPUT_10.txt')
+    algo = Branch_Bound(f'../INPUT_10.txt')
     start_time = time.time()
     result = algo.solve()
     end_time = time.time()
@@ -145,4 +145,4 @@ if __name__ == '__main__':
     running_time = end_time - start_time
     print(f"Running time (ms): {running_time*1000} ms")
 
-    algo.Write_Result(f'OUTPUT_10.txt')
+    algo.Write_Result(f'../OUTPUT_10.txt')

@@ -174,25 +174,23 @@ class Genetic:
 
 
 if __name__ == "__main__":
-    i = 7
-    for i in range(1, 11):
-        print("Genetic solution: ")
-        fileNameIn = "input_" + str(i) + ".txt"
-        fileNameOut = "output_" + str(i) + ".txt"
-        print("Input "+ str(i))
-        w, m, WList, VList, NList = getInfo(fileNameIn)
-        Knapsack.maxWeight = float(w)
-        Knapsack.classNum = float(m)
-        itemList = []
-        for j in range(len(WList)):
-            item = (float(VList[j]), float(WList[j]), int(NList[j]))
-            itemList.append(item)
-        Genetic.itemList = itemList
-        start = time.time()
-        solution = Genetic.solveProblem()
-        end = time.time()    
-        printResult(fileNameOut, solution[2], solution[1])
-        print("End Input "+ str(i))
-        print("Print Output " + str(i)) 
-        print("Time: ", end - start, '\n')
+    print("Genetic solution: ")
+    fileNameIn = "../INPUT_10.txt"
+    fileNameOut = "../OUTPUT_10.txt"
+    # print("Input "+ str(i))
+    w, m, WList, VList, NList = getInfo(fileNameIn)
+    Knapsack.maxWeight = float(w)
+    Knapsack.classNum = float(m)
+    itemList = []
+    for j in range(len(WList)):
+        item = (float(VList[j]), float(WList[j]), int(NList[j]))
+        itemList.append(item)
+    Genetic.itemList = itemList
+    start = time.time()
+    solution = Genetic.solveProblem()
+    end = time.time()    
+    printResult(fileNameOut, solution[2], solution[1])
+    # print("End Input "+ str(i))
+    # print("Print Output " + str(i)) 
+    print("Time: ", end - start, '\n')
 

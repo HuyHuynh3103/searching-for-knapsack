@@ -73,21 +73,16 @@ def LocalBeam(capacity, num, Wlist, VList, Clabel, Bwidth):
 
 
 if __name__ == '__main__':
-    i = 7
-    for i in range(1, 10):
-        print("local beam solution: ")
-        fileNameIn = "input_" + str(i) + ".txt"
-        fileNameOut = "output_" + str(i) + ".txt"
-        print("Input "+ str(i))
-        w, m, WList, VList, Clabel = getInfo(fileNameIn)
-        start = time.time()
-        for x in range(1,9):
-            lb = LocalBeam(w,m,WList,VList,Clabel,x)
-            for y in range(2,len(WList)):
-                best_val = LocalBeam(w,m,WList,VList,Clabel,x)
-        end = time.time()
-        printResult(fileNameOut, best_val[0], best_val[1])
-        print("End Input "+ str(i))
-        print("Print Output " + str(i))
-        print("Time: ", end - start, '\n')
+    print("local beam solution: ")
+    fileNameIn = "INPUT_10.txt"
+    fileNameOut = "OUTPUT_10.txt"
+    w, m, WList, VList, Clabel = getInfo(fileNameIn)
+    start = time.time()
+    for x in range(1,9):
+        lb = LocalBeam(w,m,WList,VList,Clabel,x)
+        for y in range(2,len(WList)):
+            best_val = LocalBeam(w,m,WList,VList,Clabel,x)
+    end = time.time()
+    printResult(fileNameOut, best_val[0], best_val[1])
+    print("Time: ", end - start, '\n')
     
