@@ -137,6 +137,7 @@ class Branch_Bound:
 
 
 if __name__ == '__main__':
+    print("==Branch Bound Solution==")
     algo = Branch_Bound(f'../INPUT_10.txt')
     start_time = time.time()
     result = algo.solve()

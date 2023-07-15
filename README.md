@@ -2,7 +2,8 @@
 
 This repository contains a list of algorithms implemented by Python to solve Knapsack problem.
 
-Link to report: [link](https://docs.google.com/document/d/1THMnSFJGdC9_s_IoWq08Qym4eB9wmkJr2G_1JIDEjrw/edit?usp=sharing)
+Link to report: [link-to-report](https://docs.google.com/document/d/1THMnSFJGdC9_s_IoWq08Qym4eB9wmkJr2G_1JIDEjrw/edit?usp=sharing)
+
 Implementation of several algorithms for solving 1/0 knapsack problem on Python.
 
 Here are implemented 5 algorithms:
@@ -39,7 +40,7 @@ python3 generate-data.py
 ```
 This script will generate the necessary data for subsequent file executions.
 
-## Running the algorithm in src/
+## Running the algorithm file
 
 Once you have generated the data, you can run each algorithm located in the `src/` directory. Each file serves a specific algorithm according to its name. Follow the steps below to execute these files:
 

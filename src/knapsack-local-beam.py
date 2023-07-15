@@ -73,9 +73,9 @@ def LocalBeam(capacity, num, Wlist, VList, Clabel, Bwidth):
 
 
 if __name__ == '__main__':
-    print("local beam solution: ")
-    fileNameIn = "INPUT_10.txt"
-    fileNameOut = "OUTPUT_10.txt"
+    print("==Local Beam Solution==")
+    fileNameIn = "../INPUT_10.txt"
+    fileNameOut = "../OUTPUT_10.txt"
     w, m, WList, VList, Clabel = getInfo(fileNameIn)
     start = time.time()
     for x in range(1,9):

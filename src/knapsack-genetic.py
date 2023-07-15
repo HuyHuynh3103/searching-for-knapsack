@@ -174,7 +174,7 @@ class Genetic:
 
 
 if __name__ == "__main__":
-    print("Genetic solution: ")
+    print("==Genetic Solution==")
     fileNameIn = "../INPUT_10.txt"
     fileNameOut = "../OUTPUT_10.txt"
     # print("Input "+ str(i))

@@ -65,7 +65,7 @@ def printResult(fileName, maxValue, listW):
       fout.write("No optimal solution")
 
 if __name__ == "__main__":
-    print("Brute force solution: ")
+    print("==Brute Force Solution==")
     fileNameIn = "../INPUT_10.txt"
     fileNameOut = "../Output_10.txt"
     w, m, WList, VList, NList = getInfo(fileNameIn)
