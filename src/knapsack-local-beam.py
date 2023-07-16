@@ -7,28 +7,28 @@ def localBeam(knapsackWeight, numClasses, weights, values, classLabel, bWidth):
     path = [(tuple(), 0, 0, tuple())]
 
     for i in range(len(values)):
-        pathtier = []
+        paths = []
 
         for j in range(len(path)):
             item, val, weight, classes = path[j]
             # Filter out paths that violate the weight constraint during path generation
             for k in range(len(values)):
                 if(k not in item and weight + weights[k] <= knapsackWeight):
-                    newitem = set(item).copy()
-                    newitem.add(k)
-                    newitem = tuple(newitem)
-                    updateclass = set(classes).copy()
-                    updateclass.add(classLabel[k])
-                    updateclass = tuple(updateclass)
-                    nextpath = (newitem,val+values[k], weight+weights[k],updateclass)
+                    newItem = set(item).copy()
+                    newItem.add(k)
+                    newItem = tuple(newItem)
+                    updateClass = set(classes).copy()
+                    updateClass.add(classLabel[k])
+                    updateClass = tuple(updateClass)
+                    nextPath = (newItem,val+values[k], weight+weights[k],updateClass)
 
                 else:
-                    nextpath = (item,val,weight,classes)
-                pathtier.append(nextpath)
+                    nextPath = (item,val,weight,classes)
+                paths.append(nextPath)
         # Add randomness to path selection for diversity
-        path_order = sorted(pathtier,key = lambda element:(len(element[3]), element[1],knapsackWeight-element[2]), reverse = True)
-        path_order = list(sorted(set(path_order), key = path_order.index))
-        path = path_order[:bWidth]
+        pathOrder = sorted(paths,key = lambda element:(len(element[3]), element[1],knapsackWeight-element[2]), reverse = True)
+        pathOrder = list(sorted(set(pathOrder), key = pathOrder.index))
+        path = pathOrder[:bWidth]
 
     best_track = [0]*len(values)
     best_path = path[0]
