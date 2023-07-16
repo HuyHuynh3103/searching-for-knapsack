@@ -48,8 +48,6 @@ def localBeam(knapsackWeight, numClasses, weights, values, classLabel, bWidth):
     highest_val = best_path[1]
     return  highest_val,best_track
 
-
-
 if __name__ == '__main__':
     print("==Local Beam Solution==")
     knapsackWeight, numClasses, weights, values, classLabels = utils.read.readDataset()
@@ -60,5 +58,5 @@ if __name__ == '__main__':
             best_val = localBeam(knapsackWeight,numClasses,weights,values,classLabels,x)
     end = time.time()
     utils.write.writeOutput(best_val[0], best_val[1])
-    print("Time: ", end - start, '\n')
+    print("Time (ms): ", end - start, '\n')
     

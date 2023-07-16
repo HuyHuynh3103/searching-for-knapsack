@@ -57,20 +57,16 @@ def branchBound(knapsackWeight, numClasses, weights, values, classLabels):
             if isPromissing(AddItem, knapsackWeight, numClasses, nodeResult, items):
                 stack.insert(0, AddItem)
     items.sort(key=lambda x: x.prePosition)
-    answerItems = []
-    # traceback our item, because after sorting, our items are messed up
-    # So we need to get them to their previous positions
+    solutionItems = []
     for i in range(len(items)):
-        answerItems.append(
+        solutionItems.append(
             nodeResult.totalItems[items[i].positionAfterSorting])
-    return nodeResult.totalValue,answerItems
+    return nodeResult.totalValue,solutionItems
 
 def isPromissing(node: Node, knapsackWeight: float, numClasses: int, nodeResult: Node, items: list[Item]):
-    """Check if we prunch or not prunch a node"""
     return node.totalWeight <= knapsackWeight and getBound(node, knapsackWeight, items) > nodeResult.totalValue and verifyClass(node, knapsackWeight, numClasses, items)
 
 def getBound(node: Node, knapsackWeight: float, items: list[Item]):
-    """Calculate the "possible value" we can get if travel this branch"""
     remainingWeight = knapsackWeight - node.totalWeight
     bound = node.totalValue
 
@@ -85,8 +81,6 @@ def getBound(node: Node, knapsackWeight: float, items: list[Item]):
     return bound
 
 def verifyClass(node: Node, knapsackWeight: float, numClasses: int, items: list[Item]):
-    """Check if we can have full of classes if we travel this branch
-    Return True if we can, else return False"""
     remainingWeight = knapsackWeight - node.totalWeight
     tempClass = node.totalClasses.copy()
 
@@ -103,8 +97,8 @@ if __name__ == '__main__':
     print("==Branch Bound Solution==")
     knapsackWeight, numberOfClasses, weights, values, classLabels = utils.read.readDataset()
     start_time = time.time()
-    totalValue, answerItems = branchBound(knapsackWeight, numberOfClasses, weights, values, classLabels)
+    totalValue, solutionItems = branchBound(knapsackWeight, numberOfClasses, weights, values, classLabels)
     end_time = time.time()
     running_time = end_time - start_time
-    print(f"Running time (ms): {running_time*1000} ms")
-    utils.write.writeOutput(totalValue, answerItems)
+    print(f"Time (ms): {running_time*1000} ms")
+    utils.write.writeOutput(totalValue, solutionItems)

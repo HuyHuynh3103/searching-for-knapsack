@@ -149,7 +149,6 @@ class Genetic:
                 bestIndividual = population[0]
         return bestIndividual
 
-
 if __name__ == "__main__":
     print("==Genetic Solution==")
     knapsackWeight, m, weights, values, classLabels = utils.read.readDataset()
@@ -164,5 +163,5 @@ if __name__ == "__main__":
     solution = Genetic.solveProblem()
     end = time.time()    
     utils.write.writeOutput(solution[2], solution[1])
-    print("Time: ", end - start, '\n')
+    print("Time (ms): ", end - start, '\n')
 

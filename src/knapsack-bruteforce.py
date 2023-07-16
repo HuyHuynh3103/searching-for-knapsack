@@ -44,7 +44,6 @@ def bruteForce(knapsackWeight, numClasses, weights, values, classes):
    else:
       return (maxValue, bestSelection.tolist())
 
-
 if __name__ == "__main__":
     print("==Brute Force Solution==")
     knapsackWeight, numClasses, weights, values, classLabels = utils.read.readDataset()
@@ -52,4 +51,4 @@ if __name__ == "__main__":
     maxValue, listW = bruteForce(knapsackWeight, numClasses, weights, values, classLabels)
     utils.write.writeOutput(maxValue, listW)
     end = time.time()                                                                                                                                                              
-    print("Time: ", end - start, '\n')
+    print("Time (ms): ", end - start, '\n')
