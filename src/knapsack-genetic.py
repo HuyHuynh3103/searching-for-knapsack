@@ -152,12 +152,12 @@ class Genetic:
 
 if __name__ == "__main__":
     print("==Genetic Solution==")
-    w, m, WList, VList, NList = utils.read.readDataset()
-    Knapsack.maxWeight = float(w)
+    knapsackWeight, m, weights, values, classLabels = utils.read.readDataset()
+    Knapsack.maxWeight = float(knapsackWeight)
     Knapsack.classNum = float(m)
     itemList = []
-    for j in range(len(WList)):
-        item = (float(VList[j]), float(WList[j]), int(NList[j]))
+    for j in range(len(weights)):
+        item = (float(values[j]), float(weights[j]), int(classLabels[j]))
         itemList.append(item)
     Genetic.itemList = itemList
     start = time.time()

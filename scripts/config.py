@@ -5,7 +5,7 @@ OUTPUT_FILE = 'output_file'
 class Config: 
     def __init__(self) -> None:
         self.settings = {
-            DATASET_SIZE: 10,
+            DATASET_SIZE: 20,
             NUMBER_OF_CLASS: 7,
             INPUT_FILE: 'INPUT_10.txt',
             OUTPUT_FILE: 'OUTPUT_10.txt',

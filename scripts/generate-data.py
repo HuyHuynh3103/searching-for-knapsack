@@ -41,10 +41,10 @@ def generate_dataset(size, num_of_class):
     )
 
 
-def print_dataset(capacity, num_of_class, dataset, filename="dataset.txt"):
+def print_dataset(capacity, numClasses, dataset, filename="dataset.txt"):
     with open(filename, "w") as file:
         file.write(str(capacity) + "\n")
-        file.write(str(num_of_class) + "\n")
+        file.write(str(numClasses) + "\n")
         file.write(", ".join([str(i.weight) for i in dataset]) + "\n")
         file.write(", ".join([str(i.value) for i in dataset]) + "\n")
         file.write(", ".join([str(i.type) for i in dataset]) + "\n")
