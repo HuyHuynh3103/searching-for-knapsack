@@ -40,8 +40,7 @@ def branchBound(knapsackWeight, numClasses, weights, values, classSet):
         currentNode = queue.pop(0)
         i = len(currentNode.items)
         # update node best value if current node is a leaf, satisfies class condition and more optimze than node `best_value`.
-        if i == len(items):
-            if currentNode.satisfiesClassSetCondition(numClasses):
+        if i == len(items) and currentNode.satisfiesClassSetCondition(numClasses):
                 nodeBestValue = bestNode(currentNode, nodeBestValue)
         else:
             item = items[i]
