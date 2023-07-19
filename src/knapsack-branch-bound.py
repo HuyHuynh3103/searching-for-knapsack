@@ -3,28 +3,28 @@ from queue import Queue
 import utils.read
 import utils.write
 class Item:
-    def __init__(self, weight, value, includedInClass, position):
+    def __init__(self, weight, value, kind, position):
         self.weight = weight
         self.value = value
-        self.includedInClass = includedInClass
+        self.kind = kind
         self.originalIndex = position
         self.sortedIndex = position
         self.priority = self.value / self.weight
     def __str__(self): 
-        return "Item(weight:% s,value:% s,includedInClass:% s,priority:% s)" % (self.weight, self.value, self.includedInClass, self.priority) 
+        return "Item(weight:% s,value:% s,kind:% s,priority:% s)" % (self.weight, self.value, self.kind, self.priority) 
     def __repr__(self): 
-        # return "Item(weight:% s,value:% s,includedInClass:% s,priority:% s)" % (self.weight, self.value, self.includedInClass, self.priority) 
+        # return "Item(weight:% s,value:% s,kind:% s,priority:% s)" % (self.weight, self.value, self.kind, self.priority) 
         return "Item(original:% s,sorted:% s)" % (self.originalIndex, self.sortedIndex) 
 class Node:
-    def __init__(self, weight: float, value: int, classes: list, items: list[Item]):
+    def __init__(self, weight: float, value: int, kinds: list, items: list[Item]):
         self.totalWeight = weight
         self.totalValue = value
-        self.totalClasses = classes
+        self.kinds = kinds
         self.items = items
     def satisfiesClassSetCondition(self,numClasses) -> bool: 
-        return len(set(self.totalClasses)) == numClasses
+        return len(set(self.kinds)) == numClasses
     def __str__(self): 
-        return "Node(weight:% s,value:% s,classes:% s,items:% s)" % (self.totalWeight, self.totalValue, self.totalClasses, self.items) 
+        return "Node(weight:% s,value:% s,kinds:% s,items:% s)" % (self.totalWeight, self.totalValue, self.kinds, self.items) 
 
 def branchBound(knapsackWeight, numClasses, weights, values, classSet):
     items = [Item(weights[i], values[i], classSet[i], i) for i in range(len(weights))]
@@ -44,7 +44,7 @@ def branchBound(knapsackWeight, numClasses, weights, values, classSet):
                 nodeBestValue = bestNode(currentNode, nodeBestValue)
         else:
             item = items[i]
-            newClasses = currentNode.totalClasses.copy()
+            newClasses = currentNode.kinds.copy()
             # A child node for not picking the i'th item
             notIncludedItem = Node(currentNode.totalWeight,
                                 currentNode.totalValue,
@@ -55,7 +55,7 @@ def branchBound(knapsackWeight, numClasses, weights, values, classSet):
             # A child node for picking the i'th item
             includedItem = Node(currentNode.totalWeight + item.weight,
                             currentNode.totalValue + item.value,
-                            newClasses + [item.includedInClass],
+                            newClasses + [item.kind],
                             currentNode.items + [1])
             if isPromissing(includedItem, knapsackWeight, numClasses, nodeBestValue, items):
                 queue.append(includedItem)
@@ -67,8 +67,8 @@ def branchBound(knapsackWeight, numClasses, weights, values, classSet):
     return nodeBestValue.totalValue,solutionItems
 def bestNode(nodeA: Node, nodeB: Node) -> Node: 
     return nodeA if nodeA.totalValue > nodeB.totalValue else nodeB
-def isPromissing(node: Node, knapsackWeight: float, numClasses: int, nodeResult: Node, items: list[Item]) -> bool:
-    return node.totalWeight <= knapsackWeight and getBound(node, knapsackWeight, items) > nodeResult.totalValue and verifyClass(node, knapsackWeight, numClasses, items)
+def isPromissing(node: Node, knapsackWeight: float, numClasses: int, nodeBest: Node, items: list[Item]) -> bool:
+    return node.totalWeight <= knapsackWeight and getBound(node, knapsackWeight, items) > nodeBest.totalValue and verifyClass(node, knapsackWeight, numClasses, items)
 
 def getBound(node: Node, knapsackWeight: float, items: list[Item]) -> float:
     remainingWeight = knapsackWeight - node.totalWeight
@@ -86,11 +86,11 @@ def getBound(node: Node, knapsackWeight: float, items: list[Item]) -> float:
 
 def verifyClass(node: Node, knapsackWeight: float, numClasses: int, items: list[Item]):
     remainingWeight = knapsackWeight - node.totalWeight
-    tempClass = node.totalClasses.copy()
+    tempClass = node.kinds.copy()
 
     for i in range(len(node.items), len(items)):
         item = items[i]
-        tempClass += [item.includedInClass]
+        tempClass += [item.kind]
         if remainingWeight >= item.weight:
             remainingWeight -= item.weight
         else:
