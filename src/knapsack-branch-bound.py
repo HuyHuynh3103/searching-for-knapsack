@@ -8,7 +8,7 @@ class Item:
         self._class = _class
         self.prePosition = pre_pos
         self.positionAfterSorting = pre_pos
-        self.prio = self.value / self.weight
+        self.priority = self.value / self.weight
 
 
 class Node:
@@ -21,8 +21,8 @@ class Node:
 def branchBound(knapsackWeight, numClasses, weights, values, classLabels):
     """Calculating and return the result"""
     items = [Item(weights[i], values[i], classLabels[i], i) for i in range(len(weights))]
-    # after having a list of items, we sort them by their "prio" value
-    items.sort(key=lambda x: x.prio, reverse=True)
+    # after having a list of items, we sort them by their "priority" value
+    items.sort(key=lambda x: x.priority, reverse=True)
     # Save the new index after sorting
     for i in range(len(items)):
         items[i].positionAfterSorting = i
@@ -76,7 +76,7 @@ def getBound(node: Node, knapsackWeight: float, items: list[Item]):
             remainingWeight -= item.weight
             bound += item.value
         else:
-            bound += item.prio * remainingWeight
+            bound += item.priority * remainingWeight
             break
     return bound
 
