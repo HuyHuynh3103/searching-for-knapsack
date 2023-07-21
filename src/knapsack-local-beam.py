@@ -2,7 +2,7 @@ import time
 import utils.read
 import utils.write
 
-def localBeam(knapsackWeight, numClasses, weights, values, classLabel, bWidth):
+def localBeam(knapsackWeight, numClasses, weights, values, classSet, bWidth):
     highest_val = float
     path = [(tuple(), 0, 0, tuple())]
 
@@ -18,7 +18,7 @@ def localBeam(knapsackWeight, numClasses, weights, values, classLabel, bWidth):
                     newItem.add(k)
                     newItem = tuple(newItem)
                     updateClass = set(classes).copy()
-                    updateClass.add(classLabel[k])
+                    updateClass.add(classSet[k])
                     updateClass = tuple(updateClass)
                     nextPath = (newItem,val+values[k], weight+weights[k],updateClass)
 
@@ -37,7 +37,7 @@ def localBeam(knapsackWeight, numClasses, weights, values, classLabel, bWidth):
     for x in best_path[0]:
         best_track[x] = 1
         if(best_track[x] == 1):
-            temp.append(classLabel[x]) 
+            temp.append(classSet[x]) 
             
     # Ensure that the selected items cover all classes
     for y in range(1,numClasses):
