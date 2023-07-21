@@ -2,8 +2,8 @@ import time
 import utils.read
 import utils.write
 
+# Generate initial states with an empty set of items
 def generateInitialStates(numItems, knapsackWeight, weights, values):
-    # Generate initial states with an empty set of items
     initialStates = [(tuple(), 0, 0)]
     for i in range(numItems):
         state, val, weight = initialStates[0]
@@ -16,8 +16,8 @@ def generateInitialStates(numItems, knapsackWeight, weights, values):
             initialStates.append(newStateInfo)
     return initialStates
 
+# Explore possible next states by adding a new item to each current state
 def beamSearchAtEachStep(states, knapsackWeight, weights, values):
-    # Explore possible next states by adding a new item to each current state
     newStates = []
     for state, val, weight in states:
         for i in range(len(weights)):
@@ -32,14 +32,14 @@ def beamSearchAtEachStep(states, knapsackWeight, weights, values):
             newStates.append(newStateInfo)
     return newStates
 
+# Select the best states with the highest value and lowest weight
 def selectBestStates(states, beamWidth):
-    # Select the best states with the highest value and lowest weight
     sortedStates = sorted(states, key=lambda x: (x[1], knapsackWeight - x[2]), reverse=True)
     uniqueStates = list(sorted(set(sortedStates), key=sortedStates.index))
     return uniqueStates[:beamWidth]
 
+# Select the items and classes covered by the best state
 def selectItemsForClasses(bestState, classSet):
-    # Select the items and classes covered by the best state
     bestItems = bestState[0]
     selectedClasses = set()
     selectedItems = [0] * len(values)
@@ -50,8 +50,8 @@ def selectItemsForClasses(bestState, classSet):
 
     return selectedItems, selectedClasses
 
+# Initialize the states and perform beam search
 def localBeamSearch(knapsackWeight, numClasses, weights, values, classSet, beamWidth):
-    # Initialize the states and perform beam search
     states = generateInitialStates(len(values), knapsackWeight, weights, values)
     
     for _ in range(len(values)):
