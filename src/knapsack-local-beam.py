@@ -2,73 +2,80 @@ import time
 import utils.read
 import utils.write
 
-def generateInitialPaths(num_items, knapsackWeight, weights, values):
-    initial_path = [(tuple(), 0, 0)]
-    for i in range(num_items):
-        item, val, weight = initial_path[0]
+def generateInitialStates(numItems, knapsackWeight, weights, values):
+    # Generate initial states with an empty set of items
+    initialStates = [(tuple(), 0, 0)]
+    for i in range(numItems):
+        state, val, weight = initialStates[0]
         if weight + weights[i] <= knapsackWeight:
-            newItem = set(item).copy()
-            newItem.add(i)
-            newItem = tuple(newItem)  # Convert set to tuple
-            new_path = (newItem, val + values[i], weight + weights[i])
-            initial_path.append(new_path)
-    return initial_path
+            # Add a new item to the state if the weight constraint is not violated
+            newState = set(state).copy()
+            newState.add(i)
+            newState = tuple(newState)  # Convert set to tuple
+            newStateInfo = (newState, val + values[i], weight + weights[i])
+            initialStates.append(newStateInfo)
+    return initialStates
 
-def beamSearchAtEachStep(path, knapsackWeight, weights, values):
-    newPaths = []
-    for item, val, weight in path:
+def beamSearchAtEachStep(states, knapsackWeight, weights, values):
+    # Explore possible next states by adding a new item to each current state
+    newStates = []
+    for state, val, weight in states:
         for i in range(len(weights)):
-            if i not in item and weight + weights[i] <= knapsackWeight:
-                newItem = set(item).copy()
-                newItem.add(i)
-                newItem = tuple(newItem)  # Convert set to tuple
-                new_path = (newItem, val + values[i], weight + weights[i])
+            if i not in state and weight + weights[i] <= knapsackWeight:
+                # Add a new item to the state if the weight constraint is not violated
+                newState = set(state).copy()
+                newState.add(i)
+                newState = tuple(newState)  # Convert set to tuple
+                newStateInfo = (newState, val + values[i], weight + weights[i])
             else:
-                new_path = (item, val, weight)
-            newPaths.append(new_path)
-    return newPaths
+                newStateInfo = (state, val, weight)
+            newStates.append(newStateInfo)
+    return newStates
 
-def selectBestPaths(paths, beam_width):
-    sorted_paths = sorted(paths, key=lambda x: (x[1], knapsackWeight - x[2]), reverse=True)
-    unique_paths = list(sorted(set(sorted_paths), key=sorted_paths.index))
-    return unique_paths[:beam_width]
+def selectBestStates(states, beamWidth):
+    # Select the best states with the highest value and lowest weight
+    sortedStates = sorted(states, key=lambda x: (x[1], knapsackWeight - x[2]), reverse=True)
+    uniqueStates = list(sorted(set(sortedStates), key=sortedStates.index))
+    return uniqueStates[:beamWidth]
 
-def selectItemsForClasses(bestPath, class_set):
-    best_items = bestPath[0]
+def selectItemsForClasses(bestState, classSet):
+    # Select the items and classes covered by the best state
+    bestItems = bestState[0]
     selectedClasses = set()
     selectedItems = [0] * len(values)
 
-    for item in best_items:
+    for item in bestItems:
         selectedItems[item] = 1
-        selectedClasses.add(class_set[item])
+        selectedClasses.add(classSet[item])
 
     return selectedItems, selectedClasses
 
-def localBeamSearch(knapsackWeight, numClasses, weights, values, class_set, beam_width):
-    paths = generateInitialPaths(len(values), knapsackWeight, weights, values)
+def localBeamSearch(knapsackWeight, numClasses, weights, values, classSet, beamWidth):
+    # Initialize the states and perform beam search
+    states = generateInitialStates(len(values), knapsackWeight, weights, values)
     
     for _ in range(len(values)):
-        newPaths = beamSearchAtEachStep(paths, knapsackWeight, weights, values)
-        paths = selectBestPaths(newPaths, beam_width)
+        newStates = beamSearchAtEachStep(states, knapsackWeight, weights, values)
+        states = selectBestStates(newStates, beamWidth)
 
-    bestPath = paths[0]
-    selectedItems, selectedClasses = selectItemsForClasses(bestPath, class_set)
+    bestState = states[0]
+    selectedItems, selectedClasses = selectItemsForClasses(bestState, classSet)
 
     for classLabel in range(1, numClasses):
         if sorted(selectedClasses).count(classLabel) == 0:
             return 0, [0] * len(values)
 
-    return bestPath[1], selectedItems
+    return bestState[1], selectedItems
 
 if __name__ == '__main__':
     print("==Local Beam Solution==")
     knapsackWeight, numClasses, weights, values, classLabels = utils.read.readDataset()
     start = time.time()
-    best_val = (0, [0] * len(values))
-    for beam_width in range(1, 9):
-        val, items = localBeamSearch(knapsackWeight, numClasses, weights, values, classLabels, beam_width)
-        if val > best_val[0]:
-            best_val = (val, items)
+    bestVal = (0, [0] * len(values))
+    for beamWidth in range(1, 9):
+        val, items = localBeamSearch(knapsackWeight, numClasses, weights, values, classLabels, beamWidth)
+        if val > bestVal[0]:
+            bestVal = (val, items)
     end = time.time()
-    utils.write.writeOutput(best_val[0], best_val[1])
+    utils.write.writeOutput(bestVal[0], bestVal[1])
     print("Time (ms): ", end - start, '\n')
